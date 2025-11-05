@@ -1,0 +1,20 @@
+version: "3.9"
+
+services:
+  kira_backend:
+    build:
+      context: ./api
+      dockerfile: Dockerfile
+    container_name: sales-backoffice-api
+    restart: unless-stopped
+    ports:
+      - "8000:8000"
+    environment:
+      PYTHONUNBUFFERED: "1"
+    volumes:
+      - ./api:/app
+    command: >
+      uvicorn app.main:app
+      --host 0.0.0.0
+      --port 8000
+      --reload
