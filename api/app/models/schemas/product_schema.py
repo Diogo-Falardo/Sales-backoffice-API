@@ -1,5 +1,5 @@
 from datetime import datetime
-from typing import Optional
+from typing import Optional, List
 from decimal import Decimal
 from pydantic import BaseModel, ConfigDict, field_validator
 
@@ -73,6 +73,7 @@ class ProductCreate(ProductBase):
         return product_helper.validate_img_url(img_url)
 
 # ---- Update ----
+class ProductUpdate(BaseModel):
     id: int
     name: Optional[str] = None
     sku:  Optional[str] = None
@@ -151,3 +152,42 @@ class ProductOut(ProductBase):
     active: int
 
     model_config = ConfigDict(from_attributes=True)
+
+
+# --- DASHBOARD OUTs ---
+
+class StockThresholds(BaseModel):
+    near_low: int
+
+    @field_validator("near_low", mode="before")
+    @classmethod
+    def _stock(cls, near_low):
+        return product_helper.validate_stock(near_low, title="threshold")
+    
+
+class ShortProductInfo(BaseModel):
+    name: str
+    sku:  str
+    price: Decimal
+    stock: int
+    min_stock: int
+    cost: Optional[Decimal] = None
+    category: Optional[str] = None
+
+    model_config = ConfigDict(from_attributes=True)
+
+class StockHealthResponse(BaseModel):
+    low_stock: List[ShortProductInfo]   
+    near_stock: List[ShortProductInfo]  
+    green: List[ShortProductInfo]       
+    totals: dict
+
+class StockValue(BaseModel):
+    total_products: int = 0
+    total_items: int = 0
+    total_value: Decimal = Decimal("0.00")
+    total_cost: Decimal = Decimal("0.00")
+    total_profit: Decimal = Decimal("0.00")
+    top_lucrative_products: List[ShortProductInfo]
+    mid_lucrative_products: List[ShortProductInfo]
+    low_lucrative_products: List[ShortProductInfo]

@@ -7,8 +7,6 @@ from datetime import datetime, timezone
 # session
 from app.core.session import get_db
 
-# models 
-from app.models.customer_model import Customer
 # schemas
 from app.models.schemas.customer_schema import CustomerCreate, CustomerUpdate, CustomerOut, CustomerId
 
@@ -21,7 +19,7 @@ from app.services import customer_service
 
 router = APIRouter(prefix="/customer", tags=["customer"])
 
-# create the customer
+# create a customer
 @router.post("/add", response_model=CustomerOut, name="addCustomer")
 def add_customer(
     payload: CustomerCreate,
@@ -49,7 +47,6 @@ def update_customer(
     payload: CustomerUpdate,
     db: Session = Depends(get_db)
 ):
-    
     if customer_service.check_id(payload.id) is not True:
         THROW_ERROR("**NOT FOUND** - Error with customer id!", 400)
 

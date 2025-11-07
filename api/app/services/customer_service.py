@@ -89,6 +89,7 @@ def inactive_customer(customer_id: int, db: Session):
     db.commit()
     db.refresh(customer)
     return customer
+
 """
 gets
 """

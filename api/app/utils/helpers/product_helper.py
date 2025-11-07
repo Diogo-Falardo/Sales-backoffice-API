@@ -44,21 +44,21 @@ def validate_price_cost(value: Optional[Decimal], title: str = "Amount") -> Deci
 
     return value
     
-def validate_stock(value: Optional[int]) -> int:
+def validate_stock(value: Optional[int], title: str = None) -> int:
     if value is None:
-        THROW_ERROR("Stock cannot be blank.", 400)
+        THROW_ERROR(f"Stock {title} cannot be blank.", 400)
     if not isinstance(value, int):
-        THROW_ERROR("Stock not in the correct format", 400)
+        THROW_ERROR(f"Stock {title} not in the correct format", 400)
 
     try:
         value = int(value)
     except (TypeError, ValueError):
-        THROW_ERROR("Stock must be an integer.", 400)
+        THROW_ERROR(f"Stock {title} must be an integer.", 400)
 
     if value < 0:
-        THROW_ERROR("Stock cannot be negative.", 400)
+        THROW_ERROR(f"Stock {title} cannot be negative.", 400)
     if value > 1_000_000_000:
-        THROW_ERROR("Stock value is too large.", 400)
+        THROW_ERROR(f"Stock {title} value is too large.", 400)
 
     return value
     
@@ -106,3 +106,4 @@ def validate_img_url(value: Optional[str]) -> str:
         return str(url)
     except Exception:
         THROW_ERROR("Invalid URL format for img.", 400)
+

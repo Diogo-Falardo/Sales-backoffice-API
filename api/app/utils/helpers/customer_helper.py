@@ -26,7 +26,7 @@ def validate_name(value: Optional[str]) -> str:
 
     regex = r"^[A-Za-z0-9 ]*[A-Za-z0-9][A-Za-z0-9 ]*$"
     if not re.fullmatch(regex, name):
-        THROW_ERROR("Name must contain only letters, numbers, and spaces")
+        THROW_ERROR("Name must contain only letters, numbers, and spaces", 400)
 
     return name
 
