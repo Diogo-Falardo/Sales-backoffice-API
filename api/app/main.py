@@ -23,3 +23,8 @@ app.include_router(customer_router)
 # products
 from app.routes.products import router as product_router
 app.include_router(product_router)
+
+# oder
+from app.routes.order import router as order_router
+app.include_router(order_router)
+
