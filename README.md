@@ -12,7 +12,7 @@ This project provides a complete backend solution for managing customers, produc
 
 ## 👥 Customer Management
 - Create, update, activate, or deactivate customers.  
-- Advanced search and filtering support.
+- Search support.
 
 ---
 
